@@ -1,10 +1,9 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { searchName, searchByDate, searchSigem, getCellAddress } from './dataProcessor.js';
-import exceljs from 'exceljs'; // Importe o pacote exceljs
-import moment from 'moment'; // Importe o pacote moment para manipulação de datas
+import exceljs from 'exceljs';
 import { exec } from 'child_process';
+import { searchName, searchByDate, searchSigem, getCellAddress, deleteEntry } from './dataProcessor.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -44,6 +43,7 @@ app.get('/open-excel', async (req, res) => {
 
         exec(command, (error, stdout, stderr) => {
             if (error) {
+                console.error(`exec error: ${error}`);
                 return res.status(500).send('Error opening Excel');
             }
             console.log(`stdout: ${stdout}`);
@@ -51,7 +51,7 @@ app.get('/open-excel', async (req, res) => {
             res.send('Excel opened');
         });
     } catch (error) {
-        console.error(error);
+        console.error('Error in /open-excel endpoint:', error.message);
         res.status(500).send('Error opening Excel');
     }
 });
@@ -63,54 +63,49 @@ app.put('/edit-student', async (req, res) => {
         await editStudent(name, dateOfBirth, sigem, observation, numeracao, sheet, 'lista2024.xlsx');
         res.send('Student updated');
     } catch (error) {
-        console.error(error);
+        console.error('Error in /edit-student endpoint:', error.message);
         res.status(500).send('Error editing student');
     }
 });
 
-// Endpoint DELETE para remover o aluno de ambos os arquivos
+// Endpoint para excluir um aluno da lista de 2024
 app.delete('/delete-student', async (req, res) => {
     const { numeracao, sheet } = req.query;
-    
+    const xlsmFilePath = path.join(__dirname, '../lista2024.xlsm');
+    const xlsxFilePath = path.join(__dirname, '../lista2024.xlsx');
+    const scriptPath = path.join(__dirname, 'open_excel.ps1');
+
     try {
-        await deleteStudent(numeracao, sheet, 'lista2024.xlsx');
-        await deleteStudent(numeracao, sheet, 'lista2024.xlsm'); // Exclui de ambos os arquivos
-        res.send('Aluno excluído de todos os arquivos');
+        // Exclui do arquivo .xlsx
+        await deleteEntry(xlsxFilePath, sheet, numeracao);
+
+        // Copia o arquivo .xlsx para .xlsm e exclui o .xlsm anterior
+        exec(`copy "${xlsxFilePath}" "${xlsmFilePath}"`, async (error, stdout, stderr) => {
+            if (error) {
+                console.error(`exec error: ${error}`);
+                return res.status(500).send('Error copying Excel files');
+            }
+            console.log(`stdout: ${stdout}`);
+             console.error(`stderr: ${stderr}`);
+
+            const cellAddress = await getCellAddress(sheet, numeracao, 'lista2024.xlsx');
+            const command = `powershell -ExecutionPolicy Bypass -File "${scriptPath}" -filePath "${xlsmFilePath}" -sheet "${sheet}" -cell "${cellAddress}" -delete`;
+
+            exec(command, (error, stdout, stderr) => {
+                if (error) {
+                    console.error(`exec error: ${error}`);
+                    return res.status(500).send('Error deleting student in Excel');
+                }
+                console.log(`stdout: ${stdout}`);
+                console.error(`stderr: ${stderr}`);
+                res.send('Student deleted');
+            });
+        });
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Erro ao excluir aluno');
+        console.error('Error in /delete-student endpoint:', error.message);
+        res.status(500).send('Error deleting student');
     }
 });
-
-// Função para editar um aluno
-async function editStudent(name, dateOfBirth, sigem, observation, numeracao, sheetName, filePath) {
-    const workbook = new exceljs.Workbook();
-    await workbook.xlsx.readFile(filePath);
-    const sheet = workbook.getWorksheet(sheetName);
-    const row = parseInt(numeracao.replace('R', ''), 10);
-
-    const dateColumnIndex = 4; // Ajustar conforme sua lógica de negócio
-    sheet.getRow(row).getCell(2).value = name;
-    sheet.getRow(row).getCell(dateColumnIndex).value = moment(dateOfBirth, 'YYYY-MM-DD').toDate();
-    sheet.getRow(row).getCell(3).value = sigem;
-    sheet.getRow(row).getCell(5).value = observation; // Ajustar conforme sua lógica de negócio
-
-    await workbook.xlsx.writeFile(filePath);
-}
-
-// Função para excluir aluno
-async function deleteStudent(numeracao, sheetName, filePath) {
-    if (!fs.existsSync(filePath)) {
-        throw new Error(`Arquivo não encontrado: ${filePath}`);
-    }
-
-    const workbook = new exceljs.Workbook();
-    await workbook.xlsx.readFile(filePath);
-    const sheet = workbook.getWorksheet(sheetName);
-    const row = parseInt(numeracao.replace('R', ''), 10);
-    sheet.spliceRows(row, 1); 
-    await workbook.xlsx.writeFile(filePath);
-}
 
 // Endpoint para buscar as notas do aluno
 app.get('/student-grades', async (req, res) => {
@@ -119,19 +114,10 @@ app.get('/student-grades', async (req, res) => {
         const grades = await getGrades(name, dateOfBirth);
         res.json(grades);
     } catch (error) {
-        console.error(error);
+        console.error('Error in /student-grades endpoint:', error.message);
         res.status(500).send('Erro ao buscar notas');
     }
 });
-
-// Função para buscar as notas
-async function getGrades(name, dateOfBirth) {
-    // Lógica para buscar as notas do aluno baseado no nome e data de nascimento
-    return [
-        { subject: 'Matemática', grade: 85 },
-        { subject: 'Português', grade: 90 }
-    ];
-}
 
 // Endpoint para pesquisar na lista de 2024
 app.post('/search2024', async (req, res) => {
@@ -169,7 +155,7 @@ app.get('/open-excel-2024', async (req, res) => {
             res.send('Excel opened');
         });
     } catch (error) {
-        console.error(error);
+        console.error('Error in /open-excel-2024 endpoint:', error.message);
         res.status(500).send('Error opening Excel');
     }
 });

@@ -1,0 +1,15 @@
+{
+    "GoToSheetAndCell": {
+      "code": "Sub GoToSheetAndCell(sheetName As String, cellAddress As String)\r\n   Dim ws As Worksheet\r\n   Dim targetCell As Range\r\n   Dim targetRow As Range\r\n\r\n   On Error Resume Next\r\n   Set ws = ThisWorkbook.Sheets(sheetName)\r\n   On Error GoTo 0\r\n\r\n   If Not ws Is Nothing Then\r\n       ws.Activate\r\n       ActiveWindow.WindowState = xlMaximized\r\n\r\n       Set targetCell = ws.Range(cellAddress)\r\n       If Not targetCell Is Nothing Then\r\n           Application.Goto targetCell, True\r\n           Set targetRow = targetCell.EntireRow\r\n           originalColor = targetRow.Interior.Color\r\n           targetRow.Interior.Color = RGB(30, 144, 255)\r\n\r\n           restoreTime = Now + TimeValue(\"00:00:05\")\r\n           Application.OnTime restoreTime, \"RestoreRowColor\"\r\n\r\n           closeTime = Now + TimeValue(\"00:02:00\")\r\n           Application.OnTime closeTime, \"CloseExcel\"\r\n\r\n           MsgBox \"O Excel será fechado automaticamente após 2 minutos.\", vbInformation + vbExclamation, \"Aviso\"\r\n\r\n           targetRow.Delete\r\n       Else\r\n           MsgBox \"Célula \" & cellAddress & \" não encontrada\", vbExclamation\r\n       End If\r\n   Else\r\n       MsgBox \"Planilha \" & sheetName & \" não encontrada\", vbExclamation\r\n   End If\r\nEnd Sub",
+      "description": "Macro para destacar a linha, agendar restauração e fechamento automático"
+    },
+    "RestoreRowColor": {
+      "code": "Sub RestoreRowColor()\r\n   On Error Resume Next\r\n   If Not originalColor Is Nothing Then\r\n       ActiveCell.EntireRow.Interior.Color = originalColor\r\n   End If\r\n   On Error GoTo 0\r\nEnd Sub",
+      "description": "Restaurar a cor original da linha"
+    },
+    "CloseExcel": {
+      "code": "Sub CloseExcel()\r\n   Application.DisplayAlerts = False\r\n   ThisWorkbook.Saved = True\r\n   Application.Quit\r\nEnd Sub",
+      "description": "Fechar o Excel"
+    }
+  }
+  

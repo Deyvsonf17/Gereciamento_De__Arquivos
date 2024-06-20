@@ -12,5 +12,3 @@ $workbook = $excel.Workbooks.Open($filePath)
 $null = $workbook
 
 $excel.Run("GoToSheetAndCell", $sheet, $cell)
-
-

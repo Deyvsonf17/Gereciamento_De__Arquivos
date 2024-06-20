@@ -70,15 +70,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 const observation = result.observation ? result.observation : 'O aluno está sem observação';
 
                 div.innerHTML = `
-                    <div class="result-header">
-                        <h4><i class="fas fa-user"></i> <strong>${result.name}</strong></h4>
-                        <button class="btn btn-outline-primary sigem-btn" data-sigem="${sigemCode}"><strong>Acessar o Sigem</strong></button>
-                    </div>
-                    <p><i class="fas fa-calendar-alt"></i> Data de Nascimento: <strong>${result.dateOfBirth}</strong></p>
-                    <p><i class="fas fa-id-badge"></i> Código SIGEM: <strong>${sigemCode}</strong></p>
-                    <p><i class="fas fa-info-circle"></i> Observação: <strong>${observation}</strong></p>
-                    <p>Para abrir o nome no Excel, clique no link abaixo.</p>
-                `;
+    <div class="result-header">
+        <h4><i class="fas fa-user"></i> <strong>${result.name}</strong></h4>
+        <button class="btn btn-outline-primary sigem-btn" data-sigem="${sigemCode}"><strong>Acessar o Sigem</strong></button>
+        <button class="btn btn-outline-danger delete-btn" data-numeracao="${result.numeracao}" data-sheet="${result.sheet}"><strong>Excluir</strong></button>
+        <button class="btn btn-outline-success edit-btn" data-numeracao="${result.numeracao}" data-sheet="${result.sheet}"><strong>Editar</strong></button>
+    </div>
+    <p><i class="fas fa-calendar-alt"></i> Data de Nascimento: <strong>${result.dateOfBirth}</strong></p>
+    <p><i class="fas fa-id-badge"></i> Código SIGEM: <strong>${sigemCode}</strong></p>
+    <p><i class="fas fa-info-circle"></i> Observação: <strong>${observation}</strong></p>
+    <p>Para abrir o nome no Excel, clique no link abaixo.</p>
+`;
+
 
                 const ul = document.createElement('ul');
                 const li = document.createElement('li');
@@ -115,6 +118,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 });
 
+                div.querySelectorAll('.edit-btn').forEach(button => {
+                    button.addEventListener('click', async () => {
+                        const numeracao = button.getAttribute('data-numeracao');
+                        const sheet = button.getAttribute('data-sheet');
+                
+                        // Aqui você pode implementar a lógica para editar o aluno
+                        // Por exemplo, abrir um formulário de edição ou navegar para outra página de edição
+                        alert(`Você clicou em editar para a numeracao ${numeracao} na planilha ${sheet}`);
+                    });
+                });
+                
+
                 div.querySelectorAll('.sigem-btn').forEach(button => {
                     button.addEventListener('click', async () => {
                         const sigemCode = button.getAttribute('data-sigem');
@@ -124,6 +139,31 @@ document.addEventListener('DOMContentLoaded', () => {
                             window.open(`https://educacao.moreno.pe.gov.br/`, '_blank');
                             $('#loadingModal').modal('hide');
                         }, 2000);
+                    });
+                });
+
+                div.querySelectorAll('.delete-btn').forEach(button => {
+                    button.addEventListener('click', async () => {
+                        const numeracao = button.getAttribute('data-numeracao');
+                        const sheet = button.getAttribute('data-sheet');
+
+                        if (confirm(`Tem certeza que deseja excluir o aluno com numeração ${numeracao} na planilha ${sheet}?`)) {
+                            try {
+                                const deleteResponse = await fetch(`/delete-student?numeracao=${numeracao}&sheet=${sheet}`, {
+                                    method: 'DELETE'
+                                });
+
+                                if (deleteResponse.ok) {
+                                    alert('Aluno excluído com sucesso.');
+                                    button.closest('.result-item').remove();
+                                } else {
+                                    alert('Erro ao excluir o aluno. Tente novamente mais tarde.');
+                                }
+                            } catch (error) {
+                                console.error('Erro ao excluir aluno:', error);
+                                alert('Erro ao excluir o aluno. Tente novamente mais tarde.');
+                            }
+                        }
                     });
                 });
             });
@@ -173,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('openExcelBtn').addEventListener('click', async () => {
             $('#excelModal').modal('hide');
-            await fetch(`/open-excel-2024?sheet=${sheet}&numeracao=${numeracao}`)
+            await fetch(`/open-excel-2024?sheet=${sheet}&numeracao=${numeracao}`);
         });
     }
 });
