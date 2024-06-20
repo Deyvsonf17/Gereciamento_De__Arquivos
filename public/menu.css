@@ -1,0 +1,79 @@
+body {
+    padding-top: 10px; /* Adiciona espaço no topo igual à altura do menu */
+    padding-bottom: 25px;
+}
+
+/* Estilo do Menu de Navegação */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-left: -122px; /* Ajusta a margem à esquerda para melhorar a visualização */
+}
+
+.navbar-nav {
+    display: flex;
+    justify-content: flex-end; /* Alinha os itens do menu à direita */
+    gap: 20px; /* Espaçamento entre os itens do menu */
+}
+
+.navbar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #ffffff !important; /* Links do menu em branco */
+    background-color: #007bff;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.navbar-nav .nav-link i {
+    margin-right: 8px;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para telas menores (exemplo: tablets e celulares) */
+@media (max-width: 992px) {
+    .navbar-brand {
+        margin-left: auto; /* Centraliza a navbar-brand */
+        margin-right: auto;
+    }
+}
+
+/* Estilo para o rodapé */
+footer {
+    background-color: #2c2c2c;
+    padding: 20px 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    margin-top: 55%;
+}
+
+footer p {
+    margin-bottom: 0;
+    color: #fafafa;
+}
+
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}

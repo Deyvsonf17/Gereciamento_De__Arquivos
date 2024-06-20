@@ -1,0 +1,208 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #d6e8edb5; /* Fundo azul claro */
+    padding-top: 20px; /* Espaço para o conteúdo */
+    
+}
+
+
+/* Estilo do Conteúdo Principal */
+.card {
+    border: none;
+    border-radius: 15px;
+    max-width: 800px; /* Limitar a largura do card */
+    margin: auto; /* Centralizar o card */
+}
+
+.card-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.text-muted {
+    font-size: 1.2em;
+}
+
+.form-control {
+    border-radius: 5px;
+    font-size: 1em; /* Ajuste do tamanho da fonte */
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9em; /* Reduzir o tamanho da fonte */
+    padding: 5px 10px; /* Ajuste do padding */
+    width: auto; /* Ajuste da largura */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo do Modal */
+.modal-content {
+    border-radius: 10px;
+}
+
+.modal-title {
+    font-size: 1.5em;
+}
+
+.modal-body {
+    font-size: 1.2em;
+}
+
+/* Estilo do Formulário de Busca */
+#searchForm2024 {
+    margin-top: 20px;
+}
+
+#searchForm2024 .form-group {
+    margin-bottom: 15px; /* Espaçamento entre os campos do formulário */
+}
+
+#results {
+    font-size: 1.1em;
+}
+
+.result-item {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#alertMessage {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: red;
+}
+
+/* Ajuste de Altura do Spinner no Modal de Carregamento */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+.spinner-border span {
+    font-size: 1.2em;
+}
+
+/* Botão Acessar Sigem */
+.btn-outline-primary {
+    border: 1px solid #007bff;
+    color: #007bff;
+    padding: 5px 10px; /* Ajuste do padding */
+    font-size: 0.9em; /* Ajuste do tamanho da fonte */
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Alinhar o botão Acessar Sigem à direita */
+.sigem-button-container {
+    text-align: right;
+    margin-top: 10px; /* Espaçamento superior */
+}
+
+
+/* Modal*/
+
+/* Estilos adicionais para o modal */
+.modal-content {
+    border-radius: 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    border: none;
+}
+
+.modal-header {
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+}
+
+.modal-body {
+    padding: 40px;
+}
+
+.modal-footer {
+    border-radius: 0 0 20px 20px;
+    padding: 20px;
+}
+
+.checkmark {
+    width: 80px;
+    height: 80px;
+    stroke-width: 2px;
+    stroke: #4caf50;
+    fill: none;
+    animation: drawCheck 0.6s ease forwards;
+}
+
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: #4caf50;
+    fill: none;
+    animation: strokeCircle 0.6s ease forwards;
+}
+
+.checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: strokeCheck 0.3s 0.6s ease forwards;
+}
+
+@keyframes strokeCircle {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes strokeCheck {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes drawCheck {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Animação de zoom para o modal */
+.modal-dialog-zoom {
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+    }
+    to {
+        transform: scale(1);
+    }
+}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Notas de Aluno em Construção</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+     
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e1f5fe; /* Azul claro */
+            color: #333; /* Cor do texto principal */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 50px;
+            background-color: #fff; /* Fundo branco para destaque */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            animation: fadeIn 1s ease, float 3s infinite ease-in-out; /* Animações */
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 30px;
+            color: #1565c0; /* Azul escuro */
+            animation: slideIn 1s ease-out;
+        }
+        .message {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease 0.5s;
+        }
+        .icons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .icon {
+            font-size: 2em;
+            margin: 20px;
+            color: #64b5f6; /* Azul médio para ícones */
+            animation: float 3s infinite ease-in-out, rotate 3s infinite linear; /* Animações */
+        }
+        .btn-home {
+            margin-top: 30px;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Página de Notas de Aluno em Construção</h1>
+        <p class="message">Estamos trabalhando na página de notas dos alunos.</p>
+        <p>Em breve você terá acesso às suas notas. Agradecemos pela paciência!</p>
+        <!-- Container para os ícones -->
+        <div class="icons-container">
+            <!-- Ícones usando Font Awesome -->
+            <i class="fas fa-laptop-code icon"></i>
+            <i class="fas fa-code icon"></i>
+            <i class="fas fa-paint-brush icon"></i>
+            <i class="fas fa-drafting-compass icon"></i>
+            <i class="fas fa-cog icon"></i>
+            <i class="fas fa-tools icon"></i>
+        </div>
+        <!-- Botão para voltar à página inicial -->
+        <a href="/" class="btn btn-primary btn-home"><i class="fas fa-arrow-left"></i> Voltar à Página Principal</a>
+    </div>
+
+    <!-- Bootstrap JS e jQuery (opcional, para recursos avançados) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

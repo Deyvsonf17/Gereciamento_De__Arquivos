@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="menu.css">
+
+<footer>
+    <p id="footer-year">© <span id="current-year"></span>, todos os direitos reservados.</p>
+    <p>Desenvolvido por: Deyvson Felipe</p>
+    <p>Contatos:
+        <a href="mailto:deyvsonf016@gmail.com?subject=Assunto da mensagem&body=Corpo da mensagem" target="_blank"><i class="fas fa-envelope"></i> E-mail</a>
+        |
+        <a href="https://www.facebook.com/Deyvsonflima" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+        |
+        <a href="https://www.instagram.com/deyvsonf.lima/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+    </p>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+<script src="script.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const currentYear = new Date().getFullYear();
+        document.getElementById("current-year").textContent = currentYear;
+    });
+</script>

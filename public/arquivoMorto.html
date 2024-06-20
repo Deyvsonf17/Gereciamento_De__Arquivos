@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquivo morto</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div id="menu"></div>
+
+    <div class="container mt-5 mb-5">
+        <div class="card shadow">
+            <div class="card-body">
+                <h1 class="card-title text-center">Busca no arquivo morto</h1>
+                <p class="text-muted">
+                    Página de busca de alunos no arquivo morto. Para encontrar as informações desejadas, insira o nome do aluno ou sua data de nascimento.
+                </p>
+                <form id="searchForm">
+                    <div class="form-group">
+                        <label for="name">Nome</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Digite o nome">
+                    </div>
+                    <div class="form-group">
+                        <label for="dateOfBirth">Data de Nascimento</label>
+                        <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="Digite a data de nascimento">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Buscar</button>
+                </form>
+                <div id="results" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alertModalLabel">Aviso</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Por favor, digite o nome do aluno ou a data de nascimento dele para iniciar a pesquisa.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="excelModal" tabindex="-1" role="dialog" aria-labelledby="excelModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="excelModalLabel">Aviso</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    O Excel será aberto para acessar diretamente o nome do aluno, e o programa será fechado automaticamente após 2 minutos para evitar ter várias abas abertas.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="openExcelBtn">Abrir Excel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rodape"></div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('menu.html')
+                .then(response => response.text())
+                .then(data => document.getElementById('menu').innerHTML = data);
+
+            fetch('rodape.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('rodape').innerHTML = data;
+                    const currentYear = new Date().getFullYear();
+                    document.getElementById('current-year').textContent = currentYear;
+                });
+        });
+
+        document.getElementById('openExcelBtn').addEventListener('click', function () {
+            $('#excelModal').modal('hide');
+        });
+
+        document.querySelectorAll('.nav-link-open-excel').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                $('#excelModal').modal('show');
+            });
+        });
+    </script>
+</body>
+</html>

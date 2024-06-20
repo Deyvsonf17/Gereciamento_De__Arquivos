@@ -1,0 +1,25 @@
+{
+  "name": "excel-word-search",
+  "version": "1.0.0",
+  "description": "System to search information in Excel and Word files",
+  "main": "backend/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon backend/app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "exceljs": "^4.4.0",
+    "express": "^4.19.2",
+    "googleapis": "^140.0.0",
+    "moment": "^2.30.1",
+    "open": "^10.1.0",
+    "path": "^0.12.7",
+    "unorm": "^1.6.0",
+    "xlsx": "^0.17.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
